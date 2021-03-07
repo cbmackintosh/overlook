@@ -2,10 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    managerInterface: './src/manager-interface.js',
+    customerInterface: './src/customer-interface.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.bundle.js'
+    filename: '[name].js'
   },
   devtool: 'inline-source-map',
   mode: 'development',
@@ -34,7 +38,22 @@ module.exports = {
   // Below is needed for webpack-dev-server
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
+      inject: true,
+      chunks: ['index'],
+      filename: 'index.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/manager-interface.html',
+      inject: true,
+      chunks: ['managerInterface'],
+      filename: 'manager-interface.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/customer-interface.html',
+      inject: true,
+      chunks: ['customerInterface'],
+      filename: 'customer-interface.html'
     })
   ],
   devServer: {
