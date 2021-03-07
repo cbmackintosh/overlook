@@ -18,6 +18,8 @@ const login = () => {
   } else if (document.getElementById('password-field').value === 'overlook2021' && fetch('http://localhost:3001/api/v1/customers').then(response => response.json()).then(data => data.customers.map(customer => `customer${customer.id}`).includes(document.getElementById('username-field').value))) {
     localStorage.setItem('hotelOverlookLogin', `${document.getElementById('username-field').value}`);
     window.location.replace('./customer-interface.html');
+  } else {
+    document.querySelector('.login-error-message').innerText = 'Username or password is incorrect'
   }
 }
 
