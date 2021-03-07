@@ -19,7 +19,7 @@ const login = () => {
     localStorage.setItem('hotelOverlookLogin', `${document.getElementById('username-field').value}`);
     window.location.replace('./customer-interface.html');
   } else {
-    document.querySelector('.login-error-message').innerText = 'Username or password is incorrect'
+    document.querySelector('.login-error-message').innerText = 'Username or password is incorrect';
   }
 }
 
