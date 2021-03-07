@@ -2,7 +2,17 @@
 import fetchData from './API-calls.js';
 import Hotel from './Hotel';
 
-const loadApp = () => {
+const checkLocalStorage = () => {
+  if (localStorage.getItem('hotelOverlookLogin') === 'manager') {
+    loadManagerInterface();
+  } else if (localStorage.getItem('hotelOverlookLogin')) {
+    window.location.replace('./customer-interface.html');
+  } else {
+    window.location.replace('./index.html');
+  }
+}
+
+const loadManagerInterface = () => {
   fetchData()
   .then(allData => {
     let hotel = new Hotel(allData);
@@ -10,4 +20,4 @@ const loadApp = () => {
   })
 }
 
-window.addEventListener('load', loadApp)
+window.addEventListener('load', checkLocalStorage)
