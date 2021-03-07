@@ -49,8 +49,21 @@ aside {
   padding: 5%;
 }
 
-.vacancy-search-results {
+main {
   border: 2px solid black;
   height: 100%;
   width: 50%;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin: 2%;
+}
+
+.search-card-header,
+.search-card-details {
+  display: flex;
+  justify-content: space-between;
 }

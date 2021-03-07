@@ -6,7 +6,7 @@ const checkLocalStorage = () => {
   } else if (localStorage.getItem('hotelOverlookLogin')) {
     window.location.replace('./customer-interface.html');
   } else {
-    null
+    null;
   }
 }
 
