@@ -38,7 +38,7 @@ const setDate = () => {
   let currentMonth;
   new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`;
   let date = `${new Date().getFullYear()}/${currentMonth}/${today}`;
-  // document.getElementById('checkin-date').min = date.replaceAll('/', '-');
+  document.getElementById('checkin-date').min = date.replaceAll('/', '-');
   return date
 }
 
