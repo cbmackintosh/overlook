@@ -19,8 +19,19 @@ const loadGuestLayout = (username) => {
     const hotel = new Hotel(allData);
     const currentUser = hotel.guests.find(guest => guest.username === username);
     displayProfileInformation(currentUser)
+    setDate()
     document.querySelector('.room-search-submit').addEventListener('click', function() { searchVacancies(hotel, currentUser) })
   })
+}
+
+const setDate = () => {
+  let today
+  new Date().getDate() < 10 ? today = `0${new Date().getDate()}` : today = `${new Date().getDate()}`;
+  let currentMonth
+  new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`
+  let date = `${new Date().getFullYear()}/${currentMonth}/${today}`
+  document.getElementById('checkin-date').min = date.replaceAll('/', '-')
+  console.log(date)
 }
 
 const displayProfileInformation = (currentUser) => {
