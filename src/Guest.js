@@ -6,6 +6,11 @@ class Guest {
     this.name = guestInfo.name
     this.bookings = hotelBookings.filter(booking => booking.guest === this.id)
   }
+
+  returnBookingsBefore(date) {
+    return this.bookings.filter(booking => booking.date < date);
+  }
+
 }
 
 export default Guest;

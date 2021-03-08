@@ -19,9 +19,12 @@ const loadGuestLayout = (username) => {
     const hotel = new Hotel(allData);
     const currentUser = hotel.guests.find(guest => guest.username === username);
     displayProfileInformation(currentUser)
-    setDate()
+    const date = setDate()
     document.querySelector('.room-search-submit').addEventListener('click', function() { 
       document.getElementById('checkin-date').value ? searchVacancies(hotel, currentUser) : event.preventDefault();
+    })
+    document.querySelector('.booking-history-button').addEventListener('click', function() {
+      displayBookingHistory(currentUser, date, hotel)
     })
   })
 }
@@ -33,7 +36,7 @@ const setDate = () => {
   new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`;
   let date = `${new Date().getFullYear()}/${currentMonth}/${today}`;
   // document.getElementById('checkin-date').min = date.replaceAll('/', '-');
-  console.log(date);
+  return date
 }
 
 const displayProfileInformation = (currentUser) => {
@@ -88,6 +91,23 @@ const addBooking = (currentUser, searchDate) => {
     `
   })
   loadGuestLayout(currentUser.username)
+}
+
+const displayBookingHistory = (currentUser, date, hotel) => {
+  let totalBookingsCost = currentUser.returnBookingsBefore(date).reduce((total, booking) => total += hotel.rooms.find(room => room.number === booking.room).costPerNight, 0)
+  let totalRoomServiceCharges = currentUser.returnBookingsBefore(date).map(booking => booking.roomServiceCharges).flat().reduce((total, charge) => total += charge, 0)
+  let totalExpenditures = totalBookingsCost + totalRoomServiceCharges;
+  document.querySelector('main').innerHTML = `<h1>TOTAL EXPENDITURES: $${totalExpenditures.toFixed()}</h1>`;
+  currentUser.returnBookingsBefore(date)
+  .map(booking => {
+    document.querySelector('main').innerHTML += `
+      <div class='past-booking'>
+        <h2>${booking.date}</h2>
+        <h3>${convertToTitleCase(hotel.rooms.find(room => room.number === booking.room).roomType)}</h3>
+        <p>BILL TOTAL: $${hotel.rooms.find(room => room.number === booking.room).costPerNight + booking.roomServiceCharges.reduce((total, charge) => total += charge, 0)}</p>
+      </div>
+    `
+  })
 }
 
 const logOut = () => {

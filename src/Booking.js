@@ -6,7 +6,7 @@ class Booking {
     this.id = bookingInfo.id;
     this.guest = bookingInfo.userID;
     this.room = bookingInfo.roomNumber;
-    this.roomServiceCharges = bookingInfo.roomServiceCharges;
+    this.roomServiceCharges = bookingInfo.roomServiceCharges || [];
   }
 }
 
