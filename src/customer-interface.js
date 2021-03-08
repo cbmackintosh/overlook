@@ -25,13 +25,13 @@ const loadGuestLayout = (username) => {
 }
 
 const setDate = () => {
-  let today
+  let today;
   new Date().getDate() < 10 ? today = `0${new Date().getDate()}` : today = `${new Date().getDate()}`;
-  let currentMonth
-  new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`
-  let date = `${new Date().getFullYear()}/${currentMonth}/${today}`
-  document.getElementById('checkin-date').min = date.replaceAll('/', '-')
-  console.log(date)
+  let currentMonth;
+  new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`;
+  let date = `${new Date().getFullYear()}/${currentMonth}/${today}`;
+  // document.getElementById('checkin-date').min = date.replaceAll('/', '-');
+  console.log(date);
 }
 
 const displayProfileInformation = (currentUser) => {
@@ -41,28 +41,32 @@ const displayProfileInformation = (currentUser) => {
 
 const searchVacancies = (hotel, currentUser) => {
   event.preventDefault();
-  let searchDate = document.getElementById('checkin-date').value.replaceAll('-', '/')
   document.querySelector('main').innerHTML = ``;
-  hotel.findAvailableRooms(searchDate, document.getElementById('room-type').value)
-  .map(result => {
-    document.querySelector('main').innerHTML += `
-    <div class='search-result'>
-        <div class='search-card-header'>
-          <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
-          <h2>$${result.costPerNight.toFixed(2)}</h2>
+  let searchDate = document.getElementById('checkin-date').value.replaceAll('-', '/')
+  let searchResults = hotel.findAvailableRooms(searchDate, document.getElementById('room-type').value)
+  if (searchResults.length) {
+    searchResults.map(result => {
+      document.querySelector('main').innerHTML += `
+      <div class='search-result'>
+          <div class='search-card-header'>
+            <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
+            <h2>$${result.costPerNight.toFixed(2)}</h2>
+          </div>
+          <div class='search-card-details'>
+            <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
+            <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
+            <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
+          </div>
+          <button id='${result.number}' class='book-now'>BOOK NOW!</button>
         </div>
-        <div class='search-card-details'>
-          <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
-          <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
-          <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
-        </div>
-        <button id='${result.number}' class='book-now'>BOOK NOW!</button>
-      </div>
-    `
-  })
-  document.querySelectorAll('.book-now').forEach(button => button.addEventListener('click', function() {
-    addBooking(currentUser, searchDate)
-  }))
+      `
+    })
+    document.querySelectorAll('.book-now').forEach(button => button.addEventListener('click', function() {
+      addBooking(currentUser, searchDate)
+    }))
+  } else {
+    document.querySelector('main').innerHTML += `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
+  }
 }
 
 const addBooking = (currentUser, searchDate) => {
