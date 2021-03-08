@@ -65,22 +65,26 @@ const searchVacancies = (hotel, currentUser) => {
       addBooking(currentUser, searchDate)
     }))
   } else {
-    document.querySelector('main').innerHTML += `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
+    document.querySelector('main').innerHTML = `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
   }
 }
 
 const addBooking = (currentUser, searchDate) => {
   let roomNumber = event.target.closest('.book-now').id
-  console.log(currentUser.id)
-  console.log(searchDate)
-  console.log(roomNumber)
   fetch('http://localhost:3001/api/v1/bookings', {
     method: 'POST',
     headers: {'Content-Type' : 'application/json'},
     body: JSON.stringify({ userID: currentUser.id, date: searchDate, roomNumber: parseInt(roomNumber) })
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => {
+    console.log(data)
+    document.querySelector('main').innerHTML = `
+      <h2 class='booking-confirmation-header'>BOOKING SUCCESSFUL</h2>
+      <p>CONFIRMATION NUMBER: ${data.newBooking.id}</p>
+      <p>CHECK-IN DATE: ${data.newBooking.date}<p>
+    `
+  })
 }
 
 const logOut = () => {
