@@ -85,6 +85,8 @@ const addBooking = (currentUser, searchDate) => {
       <p>CHECK-IN DATE: ${data.newBooking.date}<p>
     `
   })
+  console.log(currentUser)
+  loadGuestLayout(currentUser.username)
 }
 
 const logOut = () => {
