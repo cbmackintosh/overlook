@@ -20,7 +20,9 @@ const loadGuestLayout = (username) => {
     const currentUser = hotel.guests.find(guest => guest.username === username);
     displayProfileInformation(currentUser)
     setDate()
-    document.querySelector('.room-search-submit').addEventListener('click', function() { searchVacancies(hotel, currentUser) })
+    document.querySelector('.room-search-submit').addEventListener('click', function() { 
+      document.getElementById('checkin-date').value ? searchVacancies(hotel, currentUser) : event.preventDefault();
+    })
   })
 }
 
@@ -41,6 +43,7 @@ const displayProfileInformation = (currentUser) => {
 
 const searchVacancies = (hotel, currentUser) => {
   event.preventDefault();
+  console.log(document.getElementById('checkin-date').value)
   document.querySelector('main').innerHTML = ``;
   let searchDate = document.getElementById('checkin-date').value.replaceAll('-', '/')
   let searchResults = hotel.findAvailableRooms(searchDate, document.getElementById('room-type').value)
@@ -78,14 +81,12 @@ const addBooking = (currentUser, searchDate) => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     document.querySelector('main').innerHTML = `
       <h2 class='booking-confirmation-header'>BOOKING SUCCESSFUL</h2>
       <p>CONFIRMATION NUMBER: ${data.newBooking.id}</p>
       <p>CHECK-IN DATE: ${data.newBooking.date}<p>
     `
   })
-  console.log(currentUser)
   loadGuestLayout(currentUser.username)
 }
 
