@@ -53,6 +53,7 @@ main {
   border: 2px solid black;
   height: 100%;
   width: 50%;
+  overflow: scroll;
 }
 
 .search-result {
@@ -65,5 +66,5 @@ main {
 .search-card-header,
 .search-card-details {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
