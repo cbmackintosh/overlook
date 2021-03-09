@@ -95,9 +95,61 @@ const displayGuestDetails = (hotel, date) => {
   document.querySelector('.view-guest-future').addEventListener('click', function () {
     displayGuestUpcomingBookings(selectedGuest, date, hotel)
   })
+  document.querySelector('.room-search-submit').addEventListener('click', function() {
+    document.getElementById('checkin-date').value ? searchVacancies(hotel, selectedGuest) : event.preventDefault();
+  })
+}
+
+const searchVacancies = (hotel, guest) => {
+  event.preventDefault()
+  document.querySelector('.right-column').innerHTML = ``;
+  let searchDate = document.getElementById('checkin-date').value.replaceAll('-', '/')
+  let searchResults = hotel.findAvailableRooms(searchDate, document.getElementById('room-type').value)
+  if (searchResults.length) {
+    searchResults.map(result => {
+      document.querySelector('.right-column').innerHTML += `
+      <div class='search-result'>
+          <div class='search-card-header'>
+            <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
+            <h2>$${result.costPerNight.toFixed(2)}</h2>
+          </div>
+          <div class='search-card-details'>
+            <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
+            <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
+            <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
+          </div>
+          <button id='${result.number}' class='book-now'>BOOK NOW!</button>
+        </div>
+      `
+    })
+    document.querySelectorAll('.book-now').forEach(button => button.addEventListener('click', function() {
+      addBooking(guest, searchDate)
+    }))
+  } else {
+    document.querySelector('main').innerHTML = `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
+  }
+}
+
+const addBooking = (guest, searchDate) => {
+  let roomNumber = event.target.closest('.book-now').id
+  fetch('http://localhost:3001/api/v1/bookings', {
+    method: 'POST',
+    headers: {'Content-Type' : 'application/json'},
+    body: JSON.stringify({ userID: guest.id, date: searchDate, roomNumber: parseInt(roomNumber) })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.querySelector('.right-column').innerHTML = `
+      <h2 class='booking-confirmation-header'>BOOKING SUCCESSFUL</h2>
+      <p>CONFIRMATION NUMBER: ${data.newBooking.id}</p>
+      <p>CHECK-IN DATE: ${data.newBooking.date}<p>
+    `
+  })
+  loadManagerInterface()
 }
 
 const displayGuestUpcomingBookings = (guest, date, hotel) => {
+  loadManagerInterface()
   document.querySelector('.right-column').innerHTML = ``
   if(!guest.returnBookingsAfter(date).length) {
     document.querySelector('.right-column').innerHTML = `<h1>${guest.name} has no upcoming bookings</h1>`
@@ -132,6 +184,7 @@ const setDate = () => {
   let date = `${new Date().getFullYear()}/${currentMonth}/${today}`;
   document.querySelector('.report-date').value = date.replaceAll('/', '-');
   document.querySelector('.report-date').max = date.replaceAll('/', '-');
+  document.getElementById('checkin-date').min = date.replaceAll('/', '-');
   return date
 }
 
