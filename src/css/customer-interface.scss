@@ -1,0 +1,75 @@
+
+// ------- CUSTOMER INTERFACE ----------- //
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: space-around;
+}
+
+aside {
+  height: 100%;
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-box {
+  border: 2px solid black;
+  width: 100%;
+  height: 32%;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 5%;
+}
+
+.profile-header {
+  display: flex;
+}
+
+.profile-full-name,
+.profile-username {
+  margin: 0;
+}
+
+.booking-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  height: 50%;
+  border: 2px solid black;
+  padding: 5%;
+}
+
+main {
+  border: 2px solid black;
+  height: 100%;
+  width: 50%;
+  overflow: scroll;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin: 2%;
+}
+
+.search-card-header,
+.search-card-details {
+  display: flex;
+  justify-content: space-around;
+}
+
+.past-booking {
+  border: 1px solid black;
+  margin: 2%;
+}
