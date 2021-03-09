@@ -10,13 +10,12 @@ const checkLocalStorage = () => {
   }
 }
 
-async function login() {
+const login = () => {
   event.preventDefault()
-  const usernames = await fetch('http://localhost:3001/api/v1/customers').then(response => response.json()).then(data => data.customers.map(customer => `customer${customer.id}`))
   if (document.getElementById('password-field').value === 'overlook2021' && document.getElementById('username-field').value === 'manager')  {
     localStorage.setItem('hotelOverlookLogin', 'manager');
     window.location.replace('./manager-interface.html');
-  } else if (document.getElementById('password-field').value === 'overlook2021' && usernames.includes(document.getElementById('username-field').value)) {
+  } else if (document.getElementById('password-field').value === 'overlook2021' && fetch('http://localhost:3001/api/v1/customers').then(response => response.json()).then(data => data.customers.map(customer => `customer${customer.id}`).includes(document.getElementById('username-field').value))) {
     localStorage.setItem('hotelOverlookLogin', `${document.getElementById('username-field').value}`);
     window.location.replace('./customer-interface.html');
   } else {
@@ -24,5 +23,5 @@ async function login() {
   }
 }
 
-document.querySelector('.login-button').addEventListener('click', login)
+document.querySelector('.login-button').addEventListener('click', login);
 window.addEventListener('load', checkLocalStorage);
