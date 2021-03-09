@@ -26,6 +26,9 @@ const loadGuestLayout = (username) => {
     document.querySelector('.booking-history-button').addEventListener('click', function() {
       displayBookingHistory(currentUser, date, hotel)
     })
+    document.querySelector('.upcoming-booking-button').addEventListener('click', function() {
+      displayUpcomingBookings(currentUser, date, hotel)
+    })
   })
 }
 
@@ -35,7 +38,7 @@ const setDate = () => {
   let currentMonth;
   new Date().getMonth() + 1 < 10 ? currentMonth = `0${new Date().getMonth() + 1}` : currentMonth = `${new Date().getMonth() + 1}`;
   let date = `${new Date().getFullYear()}/${currentMonth}/${today}`;
-  // document.getElementById('checkin-date').min = date.replaceAll('/', '-');
+  document.getElementById('checkin-date').min = date.replaceAll('/', '-');
   return date
 }
 
@@ -97,7 +100,9 @@ const displayBookingHistory = (currentUser, date, hotel) => {
   let totalBookingsCost = currentUser.returnBookingsBefore(date).reduce((total, booking) => total += hotel.rooms.find(room => room.number === booking.room).costPerNight, 0)
   let totalRoomServiceCharges = currentUser.returnBookingsBefore(date).map(booking => booking.roomServiceCharges).flat().reduce((total, charge) => total += charge, 0)
   let totalExpenditures = totalBookingsCost + totalRoomServiceCharges;
-  document.querySelector('main').innerHTML = `<h1>TOTAL EXPENDITURES: $${totalExpenditures.toFixed()}</h1>`;
+  document.querySelector('main').innerHTML = `
+    <h1>BOOKING HISTORY</h1>
+    <h2>TOTAL EXPENDITURES: $${totalExpenditures.toFixed()}</h2>`;
   currentUser.returnBookingsBefore(date)
   .map(booking => {
     document.querySelector('main').innerHTML += `
@@ -108,6 +113,22 @@ const displayBookingHistory = (currentUser, date, hotel) => {
       </div>
     `
   })
+}
+
+const displayUpcomingBookings = (currentUser, date, hotel) => {
+  loadGuestLayout(currentUser.username)
+  document.querySelector('main').innerHTML = ``
+  if(!currentUser.returnBookingsAfter(date).length) {
+    document.querySelector('main').innerHTML = `<h1>You have no upcoming bookings</h1>`
+  } else {
+    document.querySelector('main').innerHTML = `<h1>UPCOMING BOOKINGS</h1>`
+    currentUser.returnBookingsAfter(date).map(booking => document.querySelector('main').innerHTML += `
+      <div class='future-booking'>
+        <h2>${booking.date}</h2>
+        <p>${convertToTitleCase(hotel.rooms.find(room => room.number === booking.room).roomType)}</p>
+      </div>
+    `)
+  }
 }
 
 const logOut = () => {

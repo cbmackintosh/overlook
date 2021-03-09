@@ -69,7 +69,34 @@ main {
   justify-content: space-around;
 }
 
-.past-booking {
+.past-booking,
+.future-booking {
   border: 1px solid black;
   margin: 2%;
+}
+
+@media screen and (max-width: 890px) {
+
+  body {
+    flex-direction: column;
+  }
+
+  aside,
+  main {
+    width: 100%
+  }
+
+  aside {
+    justify-content: space-around;
+  }
+
+  .profile-box,
+  .booking-form-container {
+    padding: 0;
+  }
+
+  .profile-box {
+    height: 40%;
+  }
+
 }

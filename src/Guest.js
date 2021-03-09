@@ -11,6 +11,10 @@ class Guest {
     return this.bookings.filter(booking => booking.date < date);
   }
 
+  returnBookingsAfter(date) {
+    return this.bookings.filter(booking => booking.date > date);
+  }
+
 }
 
 export default Guest;
