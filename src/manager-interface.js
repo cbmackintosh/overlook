@@ -25,7 +25,7 @@ const loadManagerInterface = () => {
       displayChartSummaries(hotel, document.querySelector('.report-date').value.replaceAll('-', '/'))
     })
     document.querySelector('.search-guests-button').addEventListener('click', function() {
-      searchGuests(hotel);
+      searchGuests(hotel, date);
     })
   })
 }
@@ -65,17 +65,64 @@ const compileRevenueChart = (hotel, date) => {
   })
 }
 
-const searchGuests = (hotel) => {
-  document.querySelector('.guest-search-results').classList.remove('hidden')
+const searchGuests = (hotel, date) => {
+  document.querySelector('.guest-information').classList.add('hidden');
+  document.querySelector('.guest-search-result-section').innerHTML = ``;
+  document.querySelector('.guest-search-result-section').classList.remove('hidden')
   hotel.searchGuestsByName(document.querySelector('.guest-search-bar').value)
-  .map(result => document.querySelector('.guest-search-results').innerHTML += `
-    <div class='guest-search-result'>
+  .map(result => document.querySelector('.guest-search-result-section').innerHTML += `
+    <div class='guest-search-result' id=${result.id}>
       <h3>${result.name}</h3>
       <p>${result.username}</h3>
     </div>
   `)
+  document.querySelectorAll('.guest-search-result').forEach(result => result.addEventListener('click', function() {
+    displayGuestDetails(hotel, date)
+  }))
 }
 
+const displayGuestDetails = (hotel, date) => {
+  const selectedGuest = hotel.guests.find(guest => guest.id === parseInt(event.target.closest('.guest-search-result').id));
+  let totalBookingsCost = selectedGuest.returnBookingsBefore(date).reduce((total, booking) => total += hotel.rooms.find(room => room.number === booking.room).costPerNight, 0)
+  let totalRoomServiceCharges = selectedGuest.returnBookingsBefore(date).map(booking => booking.roomServiceCharges).flat().reduce((total, charge) => total += charge, 0)
+  let totalExpenditures = totalBookingsCost + totalRoomServiceCharges;
+  console.log(selectedGuest.name)
+  document.querySelector('.guest-search-result-section').classList.add('hidden');
+  document.querySelector('.guest-information').classList.remove('hidden');
+  document.querySelector('.guest-name').innerText = selectedGuest.name;
+  document.querySelector('.guest-username').innerText = selectedGuest.username;
+  document.querySelector('.guest-total-expenditures').innerText = `TOTAL EXPENDITURES: $${totalExpenditures.toFixed(2)}`
+  document.querySelector('.view-guest-future').addEventListener('click', function () {
+    displayGuestUpcomingBookings(selectedGuest, date, hotel)
+  })
+}
+
+const displayGuestUpcomingBookings = (guest, date, hotel) => {
+  document.querySelector('.right-column').innerHTML = ``
+  if(!guest.returnBookingsAfter(date).length) {
+    document.querySelector('.right-column').innerHTML = `<h1>${guest.name} has no upcoming bookings</h1>`
+  } else {
+    document.querySelector('.right-column').innerHTML = `<h1>UPCOMING BOOKINGS</h1>`
+    guest.returnBookingsAfter(date).map(booking => document.querySelector('.right-column').innerHTML += `
+      <div class='future-booking'>
+        <h2>${booking.date}</h2>
+        <p>ROOM #${hotel.rooms.find(room => room.number === booking.room).number}</p>
+        <p>${convertToTitleCase(hotel.rooms.find(room => room.number === booking.room).roomType)}</p>
+        <button id='${booking.id}' class='cancel-booking-button'>CANCEL BOOKING</button>
+      </div>
+    `)
+    document.querySelectorAll('.cancel-booking-button').forEach(button => button.addEventListener('click', cancelBooking))
+  }
+}
+
+const cancelBooking = () => {
+  fetch(`http://localhost:3001/api/v1/bookings/${event.target.closest('.cancel-booking-button').id}`, {
+    method: 'DELETE',
+    headers: {'Content-Type' : 'application/json'},
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+}
 
 const setDate = () => {
   let today;
@@ -104,6 +151,10 @@ const formatDate = (number) => {
   } else {
     return `${number}`
   }
+}
+
+function convertToTitleCase(string) {
+  return string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
 }
 
 const logOut = () => {

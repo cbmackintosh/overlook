@@ -14,9 +14,18 @@ body {
   overflow: scroll;
 }
 
-.guest-search-result {
+.guest-search-result,
+.guest-information,
+form {
   margin: 1%;
   border: 1px solid black;
+}
+
+
+
+.guest-search-result:hover {
+  background-color: grey;
+  cursor: pointer;
 }
 
 .hidden {

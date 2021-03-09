@@ -26,20 +26,28 @@
       <h2>GUEST SEARCH</h2>
       <input class='guest-search-bar'>
       <button class='search-guests-button'>SEARCH GUESTS</button>
-      <div class='guest-search-results hidden'>
+      <div class='guest-search-result-section hidden'>
       </div>
       <div class='guest-information hidden'>
-        <h2>First Name, Last Name</h2>
-        <p>username</p>
-        <h3>TOTAL EXPENDITURES; $7000</h3>
-        <button>VIEW UPCOMING BOOKINGS</button>
-        <button>VIEW BOOKING HISTORY</button>
-        <div class='new-booking-form'>
-          <h3>MAKE A NEW BOOKING</h3>
-          <input type='date'>
-          <input>room type</input>
-          <button>SEARCH ROOMS</button>
-        </div>
+        <h2 class='guest-name'></h2>
+        <p class='guest-username'>username</p>
+        <h3 class='guest-total-expenditures'></h3>
+        <button class='view-guest-future'>VIEW UPCOMING BOOKINGS</button>
+        <button class='view-guest-history'>VIEW BOOKING HISTORY</button>
+        <form class='booking-form-container'>
+          <h2>MAKE A BOOKING</h2>
+          <label for='checkin-date'>CHECK-IN DATE</label>
+          <input type='date' id='checkin-date'>
+          <label for="room-type">ROOM TYPE:</label>
+          <select name="room-type" id="room-type">
+            <option value="all-rooms">All rooms</option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="suite">Suite</option>
+            <option value="single room">Single Room</option>
+            <option value="junior suite">Junior Suite</option>
+          </select>
+          <button class='room-search-submit'>SEARCH</button>
+        </form>
       </div>
     </section>
     <section class='column right-column'>
