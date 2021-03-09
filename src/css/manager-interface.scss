@@ -31,3 +31,15 @@ form {
 .hidden {
   display: none;
 }
+
+@media screen and (max-width: 890px) {
+
+  body {
+    flex-direction: column;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+}
