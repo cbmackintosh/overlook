@@ -25,6 +25,17 @@ class Hotel {
   returnNumberOfUnoccupiedRoomsFor(date) {
     return this.rooms.length - this.bookings.filter(booking => booking.date === date).length;
   }
+
+  getDailyRevenue(date) {
+    // return this.bookings.filter(booking => booking.date === date)
+    return this.bookings.filter(booking => booking.date === date).reduce((total, booking) => total += this.rooms.find(room => room.number === booking.room).costPerNight, 0)
+  }
+
+  getRevenueDataForWeek(dates) {
+    let results = []
+    dates.map(date => results.push({x: date, y: this.getDailyRevenue(date)}))
+    return results;
+  }
 }
 
 export default Hotel;
