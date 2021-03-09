@@ -17,6 +17,14 @@ class Hotel {
       return this.rooms.filter(room => !room.bookings.map(booking => booking.date).includes(date)).filter(room => room.roomType === roomType);
     }
   }
+
+  returnNumberOfOccupiedRoomsFor(date) {
+    return this.bookings.filter(booking => booking.date === date).length;
+  }
+
+  returnNumberOfUnoccupiedRoomsFor(date) {
+    return this.rooms.length - this.bookings.filter(booking => booking.date === date).length;
+  }
 }
 
 export default Hotel;

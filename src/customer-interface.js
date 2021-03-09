@@ -1,6 +1,5 @@
 import fetchData from './API-calls.js';
 import Hotel from './Hotel';
-import './images/user.png';
 import './css/customer-interface.scss';
 
 const checkLocalStorage = () => {
