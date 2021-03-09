@@ -24,12 +24,14 @@ const loadManagerInterface = () => {
     document.querySelector('.refresh-report').addEventListener('click', function() {
       displayChartSummaries(hotel, document.querySelector('.report-date').value.replaceAll('-', '/'))
     })
+    document.querySelector('.search-guests-button').addEventListener('click', function() {
+      searchGuests(hotel);
+    })
   })
 }
 
 const displayChartSummaries = (hotel, date) => {
   document.querySelector('.daily-report-header').innerText = `DAILY REPORT FOR ${date}`
-  
   compileOccupancyChart(hotel, date)
   compileRevenueChart(hotel, date)
 }
@@ -63,6 +65,17 @@ const compileRevenueChart = (hotel, date) => {
   })
 }
 
+const searchGuests = (hotel) => {
+  document.querySelector('.guest-search-results').classList.remove('hidden')
+  hotel.searchGuestsByName(document.querySelector('.guest-search-bar').value)
+  .map(result => document.querySelector('.guest-search-results').innerHTML += `
+    <div class='guest-search-result'>
+      <h3>${result.name}</h3>
+      <p>${result.username}</h3>
+    </div>
+  `)
+}
+
 
 const setDate = () => {
   let today;
@@ -91,6 +104,11 @@ const formatDate = (number) => {
   } else {
     return `${number}`
   }
+}
+
+const logOut = () => {
+  localStorage.removeItem('hotelOverlookLogin')
+  window.location.replace('./index.html')
 }
 
 document.querySelector('.log-out-button').addEventListener('click', logOut)

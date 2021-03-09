@@ -11,4 +11,14 @@ body {
 .column {
   border: 2px solid black;
   width: 32%;
+  overflow: scroll;
+}
+
+.guest-search-result {
+  margin: 1%;
+  border: 1px solid black;
+}
+
+.hidden {
+  display: none;
 }
