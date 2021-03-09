@@ -18,7 +18,6 @@ const loadManagerInterface = () => {
   fetchData()
   .then(allData => {
     const hotel = new Hotel(allData);
-    console.log(hotel)
     const date = setDate()
     displayChartSummaries(hotel, date)
     document.querySelector('.refresh-report').addEventListener('click', function() {
@@ -27,6 +26,15 @@ const loadManagerInterface = () => {
     document.querySelector('.search-guests-button').addEventListener('click', function() {
       searchGuests(hotel, date);
     })
+    if (!document.querySelector('.guest-information').classList.value.includes('hidden')) {
+      const selectedGuest = hotel.guests.find(guest => guest.id === parseInt(document.querySelector('.guest-information').id))
+      document.querySelector('.view-guest-future').addEventListener('click', function () {
+        displayGuestUpcomingBookings(selectedGuest, date, hotel)
+      })
+      document.querySelector('.room-search-submit').addEventListener('click', function() {
+        document.getElementById('checkin-date').value ? searchVacancies(hotel, selectedGuest) : event.preventDefault();
+      })
+    }
   })
 }
 
@@ -86,9 +94,9 @@ const displayGuestDetails = (hotel, date) => {
   let totalBookingsCost = selectedGuest.returnBookingsBefore(date).reduce((total, booking) => total += hotel.rooms.find(room => room.number === booking.room).costPerNight, 0)
   let totalRoomServiceCharges = selectedGuest.returnBookingsBefore(date).map(booking => booking.roomServiceCharges).flat().reduce((total, charge) => total += charge, 0)
   let totalExpenditures = totalBookingsCost + totalRoomServiceCharges;
-  console.log(selectedGuest.name)
   document.querySelector('.guest-search-result-section').classList.add('hidden');
   document.querySelector('.guest-information').classList.remove('hidden');
+  document.querySelector('.guest-information').id = selectedGuest.id;
   document.querySelector('.guest-name').innerText = selectedGuest.name;
   document.querySelector('.guest-username').innerText = selectedGuest.username;
   document.querySelector('.guest-total-expenditures').innerText = `TOTAL EXPENDITURES: $${totalExpenditures.toFixed(2)}`
@@ -109,24 +117,24 @@ const searchVacancies = (hotel, guest) => {
     searchResults.map(result => {
       document.querySelector('.right-column').innerHTML += `
       <div class='search-result'>
-          <div class='search-card-header'>
-            <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
-            <h2>$${result.costPerNight.toFixed(2)}</h2>
-          </div>
-          <div class='search-card-details'>
-            <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
-            <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
-            <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
-          </div>
-          <button id='${result.number}' class='book-now'>BOOK NOW!</button>
+        <div class='search-card-header'>
+          <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
+          <h2>$${result.costPerNight.toFixed(2)}</h2>
         </div>
+        <div class='search-card-details'>
+          <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
+          <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
+          <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
+        </div>
+        <button id='${result.number}' class='book-now'>BOOK NOW!</button>
+      </div>
       `
     })
     document.querySelectorAll('.book-now').forEach(button => button.addEventListener('click', function() {
       addBooking(guest, searchDate)
     }))
   } else {
-    document.querySelector('main').innerHTML = `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
+    document.querySelector('.right-column').innerHTML = `<h2 class='apology'>SORRY. THERE ARE NO AVAILABLE ROOMS MATCHING THOSE CRITERIA</h2>`
   }
 }
 
@@ -145,11 +153,10 @@ const addBooking = (guest, searchDate) => {
       <p>CHECK-IN DATE: ${data.newBooking.date}<p>
     `
   })
-  loadManagerInterface()
+  refreshUserData()
 }
 
-const displayGuestUpcomingBookings = (guest, date, hotel) => {
-  loadManagerInterface()
+const displayGuestUpcomingBookings = (guest, date, hotel) => { 
   document.querySelector('.right-column').innerHTML = ``
   if(!guest.returnBookingsAfter(date).length) {
     document.querySelector('.right-column').innerHTML = `<h1>${guest.name} has no upcoming bookings</h1>`
@@ -160,20 +167,28 @@ const displayGuestUpcomingBookings = (guest, date, hotel) => {
         <h2>${booking.date}</h2>
         <p>ROOM #${hotel.rooms.find(room => room.number === booking.room).number}</p>
         <p>${convertToTitleCase(hotel.rooms.find(room => room.number === booking.room).roomType)}</p>
+        <p>BOOKING #${booking.id}</p>
         <button id='${booking.id}' class='cancel-booking-button'>CANCEL BOOKING</button>
       </div>
     `)
-    document.querySelectorAll('.cancel-booking-button').forEach(button => button.addEventListener('click', cancelBooking))
+    document.querySelectorAll('.cancel-booking-button').forEach(button => button.addEventListener('click', function() {
+      cancelBooking(guest)
+    }))
   }
 }
 
-const cancelBooking = () => {
+const cancelBooking = (guest) => {
   fetch(`http://localhost:3001/api/v1/bookings/${event.target.closest('.cancel-booking-button').id}`, {
     method: 'DELETE',
     headers: {'Content-Type' : 'application/json'},
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => document.querySelector('.right-column').innerHTML = `
+    <h1>BOOKING CANCELED</h1>
+    <p>${data.message}</p>
+  `)
+  console.log(guest)
+  refreshUserData()
 }
 
 const setDate = () => {
@@ -190,7 +205,7 @@ const setDate = () => {
 
 const returnSevenDatesBefore = (dateInput) => {
   const result = [];
-  for (var i=0; i<7; i++) {
+  for (let i = 0; i < 7; i++) {
     let date = new Date(dateInput);
     date.setDate(date.getDate() - i);
     result.push(`${date.getFullYear()}/${formatDate(date.getMonth() + 1)}/${formatDate(date.getDate())}`)
@@ -208,6 +223,10 @@ const formatDate = (number) => {
 
 function convertToTitleCase(string) {
   return string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+}
+
+async function refreshUserData() {
+  await loadManagerInterface()
 }
 
 const logOut = () => {
