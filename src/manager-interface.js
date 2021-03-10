@@ -17,8 +17,8 @@ const checkLocalStorage = () => {
 const loadManagerInterface = () => {
   fetchData()
   .then(allData => {
-    console.log(allData)
     const hotel = new Hotel(allData);
+    console.log(hotel)
     const date = setDate()
     displayChartSummaries(hotel, date)
     document.querySelector('.refresh-report').addEventListener('click', function() {
