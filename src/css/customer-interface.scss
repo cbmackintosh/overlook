@@ -1,5 +1,9 @@
 
-// ------- CUSTOMER INTERFACE ----------- //
+@import 'reusable-styles';
+
+* {
+  @include master-font;
+}
 
 html,
 body {
@@ -7,26 +11,22 @@ body {
 }
 
 body {
-  display: flex;
-  justify-content: space-around;
+  @include main-background();
+  @include flexbox(row, space-around, none);
 }
 
 aside {
+  @include flexbox(column, space-around, none);
   height: 100%;
   width: 33%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .profile-box {
-  border: 2px solid black;
+  @include primary-card-color();
+  @include flexbox(column, space-around, none);
   width: 100%;
   height: 32%;
   padding: 2%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   padding: 5%;
 }
 
@@ -40,26 +40,23 @@ aside {
 }
 
 .booking-form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  @include flexbox(column, space-around, none);
+  @include primary-card-color();
   width: 100%;
   height: 50%;
-  border: 2px solid black;
   padding: 5%;
 }
 
 main {
-  border: 2px solid black;
-  height: 100%;
+  @include primary-card-color();
+  height: 98%;
   width: 50%;
   overflow: scroll;
 }
 
 .search-result {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black;
+  @include flexbox(column, none, none);
+  @include thin-black-border();
   margin: 2%;
 }
 
@@ -71,7 +68,7 @@ main {
 
 .past-booking,
 .future-booking {
-  border: 1px solid black;
+  @include thin-black-border();
   margin: 2%;
 }
 

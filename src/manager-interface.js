@@ -18,7 +18,6 @@ const loadManagerInterface = () => {
   fetchData()
   .then(allData => {
     const hotel = new Hotel(allData);
-    console.log(hotel)
     const date = setDate()
     displayChartSummaries(hotel, date)
     document.querySelector('.refresh-report').addEventListener('click', function() {
@@ -226,7 +225,6 @@ const cancelBooking = (guest) => {
     <h1>BOOKING CANCELED</h1>
     <p>${data.message}</p>
   `)
-  console.log(guest)
   refreshUserData()
 }
 
@@ -265,7 +263,6 @@ function convertToTitleCase(string) {
 }
 
 async function refreshUserData() {
-  console.log('refresh')
   await loadManagerInterface()
 }
 

@@ -48,7 +48,6 @@ const displayProfileInformation = (currentUser) => {
 
 const searchVacancies = (hotel, currentUser) => {
   event.preventDefault();
-  console.log(document.getElementById('checkin-date').value)
   document.querySelector('main').innerHTML = ``;
   let searchDate = document.getElementById('checkin-date').value.replaceAll('-', '/')
   let searchResults = hotel.findAvailableRooms(searchDate, document.getElementById('room-type').value)

@@ -11,12 +11,12 @@
   <body>
     <section class='column left-column'>
       <div class='greeting-box'>
-        <h1>HOTEL OVERLOOK MANAGER'S PORTAL</h1>
+        <h2 class='manager-portal-header'>HOTEL OVERLOOK MANAGER'S PORTAL</h1>
         <button class='log-out-button'>LOG OUT</button>
       </div>
       <div class='daily-report'>
         <h2 class='daily-report-header'></h2>
-        <label for='report-date'>SELECT DATE FOR REVENUE/OCCUPANCY REPORT</label>
+        <label for='report-date'>SELECT REPORT DATE</label>
         <input id='report-date' class='report-date' type='date'>
         <button class='refresh-report'>REFRESH</button>
         <div id='chartDiv-occupancy'></div>
@@ -24,18 +24,22 @@
       </div>
     </section>
     <section class='column middle-column'>
-      <h2>GUEST SEARCH</h2>
-      <label for='guest-search-bar'>SEARCH GUESTS</label>
-      <input id='guest-search-bar' class='guest-search-bar'>
-      <button class='search-guests-button'>SEARCH</button>
+      <div class='guest-search-container'>
+        <h2 class='guest-search-header'>GUEST SEARCH</h2>
+        <label for='guest-search-bar'>SEARCH GUESTS</label>
+        <input id='guest-search-bar' class='guest-search-bar'>
+        <button class='search-guests-button'>SEARCH</button>
+      </div>
       <div class='guest-search-result-section hidden'>
       </div>
       <div class='guest-information hidden'>
         <h2 class='guest-name'>Guest Name</h2>
         <p class='guest-username'>username</p>
         <h3 class='guest-total-expenditures'>Guest Total Expenditures</h3>
-        <button class='view-guest-future'>VIEW UPCOMING BOOKINGS</button>
-        <button class='view-guest-history'>VIEW BOOKING HISTORY</button>
+        <div class='guest-details-buttons'>
+          <button class='view-guest-future'>VIEW UPCOMING BOOKINGS</button>
+          <button class='view-guest-history'>VIEW BOOKING HISTORY</button>
+        </div>
         <form class='booking-form-container'>
           <h2>MAKE A BOOKING</h2>
           <label for='checkin-date'>CHECK-IN DATE</label>

@@ -1,0 +1,26 @@
+
+@mixin master-font() {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@mixin main-background() {
+  background-image: url('../images/background-image.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@mixin primary-card-color() {
+  background-color: white;
+  opacity: 0.85;
+}
+
+@mixin flexbox($direction, $justifyContent, $alignItems) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+}
+
+@mixin thin-black-border() {
+  border: 1px solid black;
+}

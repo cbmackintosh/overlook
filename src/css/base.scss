@@ -1,28 +1,28 @@
 
+@import 'reusable-styles';
+
+* {
+  @include master-font;
+}
+
 body,
 html {
   height: 100%;
 }
 
 body {
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include main-background;
+  @include flexbox(row, center, center);
 }
 
 .login-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 2px solid black;
+  @include primary-card-color;
+  @include flexbox(column, space-between, none);
   padding: 10%;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  @include flexbox(column, space-around, none);
   height: 50%;
 }
 
