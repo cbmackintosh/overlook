@@ -7,9 +7,9 @@ const hotelData = {
   roomData: [
     {number: 1, roomType: "residential suite", bidet: true, bedSize: "queen", numBeds: 1, costPerNight: 5},
     {number: 2, roomType: "suite", bidet: false, bedSize: "full", numBeds:2, costPerNight: 5},
-    {number: 3, roomType: "single room", bidet:false, bedSize: "king", numBeds: 1, costPerNight: 5},
-    {number: 4, roomType: "single room", bidet:false,bedSize: "queen", numBeds: 1, costPerNight: 5},
-    {number: 5, roomType: "single room", bidet:true, bedSize: "queen", numBeds: 2, costPerNight: 5}
+    {number: 3, roomType: "single room", bidet: false, bedSize: "king", numBeds: 1, costPerNight: 5},
+    {number: 4, roomType: "single room", bidet: false,bedSize: "queen", numBeds: 1, costPerNight: 5},
+    {number: 5, roomType: "single room", bidet: true, bedSize: "queen", numBeds: 2, costPerNight: 5}
   ],
   bookingData: [
     {id: 11111111111111111, userID: 1, date: '2020/03/10', roomNumber: 1, roomServiceCharges: []},
