@@ -12,7 +12,7 @@ class Guest {
   }
 
   returnBookingsAfter(date) {
-    return this.bookings.filter(booking => booking.date > date);
+    return this.bookings.filter(booking => booking.date >= date);
   }
 
 }

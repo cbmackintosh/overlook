@@ -1,0 +1,46 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: space-around;
+}
+
+.column {
+  border: 2px solid black;
+  width: 32%;
+  overflow: scroll;
+}
+
+.guest-search-result,
+.guest-information,
+form {
+  margin: 1%;
+  border: 1px solid black;
+}
+
+
+
+.guest-search-result:hover {
+  background-color: grey;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+@media screen and (max-width: 890px) {
+
+  body {
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .column {
+    width: 100%;
+  }
+
+}

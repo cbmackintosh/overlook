@@ -1,6 +1,5 @@
 import fetchData from './API-calls.js';
 import Hotel from './Hotel';
-import './images/user.png';
 import './css/customer-interface.scss';
 
 const checkLocalStorage = () => {
@@ -57,17 +56,17 @@ const searchVacancies = (hotel, currentUser) => {
     searchResults.map(result => {
       document.querySelector('main').innerHTML += `
       <div class='search-result'>
-          <div class='search-card-header'>
-            <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
-            <h2>$${result.costPerNight.toFixed(2)}</h2>
-          </div>
-          <div class='search-card-details'>
-            <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
-            <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
-            <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
-          </div>
-          <button id='${result.number}' class='book-now'>BOOK NOW!</button>
+        <div class='search-card-header'>
+          <h2>${convertToTitleCase(result.roomType)}(#${result.number})</h2>
+          <h2>$${result.costPerNight.toFixed(2)}</h2>
         </div>
+        <div class='search-card-details'>
+          <p class='bed-size'>BED SIZE: ${convertToTitleCase(result.bedSize)}</p>
+          <p class='num-beds'>NUMBER OF BEDS: ${result.numBeds}</p>
+          <p class='bidet'>BIDET: ${result.bidet ? 'Yes' : 'No'}</p>
+        </div>
+        <button id='${result.number}' class='book-now'>BOOK NOW!</button>
+      </div>
       `
     })
     document.querySelectorAll('.book-now').forEach(button => button.addEventListener('click', function() {

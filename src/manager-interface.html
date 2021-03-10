@@ -9,6 +9,49 @@
     <link rel="stylesheet" href="">
   </head>
   <body>
-    <h1>This is the manager interface</h1>
+    <section class='column left-column'>
+      <div class='greeting-box'>
+        <h1>HOTEL OVERLOOK MANAGER'S PORTAL</h1>
+        <button class='log-out-button'>LOG OUT</button>
+      </div>
+      <div class='daily-report'>
+        <h2 class='daily-report-header'></h2>
+        <input class='report-date' type='date'>
+        <button class='refresh-report'>REFRESH</button>
+        <div id='chartDiv-occupancy'></div>
+        <div id='chartDiv-revenue'></div>
+      </div>
+    </section>
+    <section class='column middle-column'>
+      <h2>GUEST SEARCH</h2>
+      <input class='guest-search-bar'>
+      <button class='search-guests-button'>SEARCH GUESTS</button>
+      <div class='guest-search-result-section hidden'>
+      </div>
+      <div class='guest-information hidden'>
+        <h2 class='guest-name'></h2>
+        <p class='guest-username'>username</p>
+        <h3 class='guest-total-expenditures'></h3>
+        <button class='view-guest-future'>VIEW UPCOMING BOOKINGS</button>
+        <button class='view-guest-history'>VIEW BOOKING HISTORY</button>
+        <form class='booking-form-container'>
+          <h2>MAKE A BOOKING</h2>
+          <label for='checkin-date'>CHECK-IN DATE</label>
+          <input type='date' id='checkin-date'>
+          <label for="room-type">ROOM TYPE:</label>
+          <select name="room-type" id="room-type">
+            <option value="all-rooms">All rooms</option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="suite">Suite</option>
+            <option value="single room">Single Room</option>
+            <option value="junior suite">Junior Suite</option>
+          </select>
+          <button class='room-search-submit'>SEARCH</button>
+        </form>
+      </div>
+    </section>
+    <section class='column right-column'>
+
+    </section>
   </body>
 </html>
