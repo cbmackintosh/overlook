@@ -83,6 +83,7 @@ const addBooking = (currentUser, searchDate) => {
     headers: {'Content-Type' : 'application/json'},
     body: JSON.stringify({ userID: currentUser.id, date: searchDate, roomNumber: parseInt(roomNumber) })
   })
+  .then(handleErrors)
   .then(response => response.json())
   .then(data => {
     document.querySelector('main').innerHTML = `
@@ -91,7 +92,15 @@ const addBooking = (currentUser, searchDate) => {
       <p>CHECK-IN DATE: ${data.newBooking.date}<p>
     `
   })
+  .catch(error => document.querySelector('main').innerHTML = '<h2>Something went wrong, please try again later.</h2>')
   loadGuestLayout(currentUser.username)
+}
+
+function handleErrors(response) {
+  if (!response.ok) {
+      throw Error(response.statusText);
+  }
+  return response;
 }
 
 const displayBookingHistory = (currentUser, date, hotel) => {

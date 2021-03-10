@@ -1,7 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
 import Hotel from '../src/Hotel';
-import Guest from '../src/Guest';
 import Booking from '../src/Booking';
 import Room from '../src/Room';
 import hotelData from './test-data'
