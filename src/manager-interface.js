@@ -47,20 +47,40 @@ const displayChartSummaries = (hotel, date) => {
 
 const compileOccupancyChart = (hotel, date) => {
   const chart = new JSC.Chart('chartDiv-occupancy', {
+    legend_visible: false,
+    tabIndex: "auto",
+    description: `Pie chart comparing the number of occupied and unoccupied rooms at the hotel for ${date}`,
     type: "pie",
     box_fill: 'none',
     title_label_text: `Occupancy for ${date}`,
     series: [
       {
-        points: [{ x: "OCCUPIED", y: hotel.returnNumberOfOccupiedRoomsFor(date), color: "red"}, { x: "VACANT", y: hotel.returnNumberOfUnoccupiedRoomsFor(date), color: "green" }]
+        points: [
+          {
+            x: "OCCUPIED", 
+            y: hotel.returnNumberOfOccupiedRoomsFor(date), 
+            color: "red", 
+            description:`${hotel.returnNumberOfOccupiedRoomsFor(date)} were occupied on ${date}`
+          }, 
+          { 
+            x: "VACANT", 
+            y: hotel.returnNumberOfUnoccupiedRoomsFor(date), 
+            color: "green",
+            description: `${hotel.returnNumberOfOccupiedRoomsFor(date)} were vacant on ${date}`
+          }
+        ]
       }
     ]
   })
 }
 
 const compileRevenueChart = (hotel, date) => {
+  const dataPoints = hotel.getRevenueDataForWeek(returnSevenDatesBefore(date))
+  dataPoints.forEach(point => point.description = `Hotel revenue on ${point.y} was $${point.x}`)
   const chart = new JSC.Chart('chartDiv-revenue', {
     legend_visible: false,
+    tabIndex: "auto",
+    description: `Line chart showing hotel revenue for the week preceding ${date}`,
     box_fill: 'none',
     yAxis_alternateGridFill: 'none',
     yAxis_defaultTick_gridLine: {visible: false},
@@ -68,7 +88,7 @@ const compileRevenueChart = (hotel, date) => {
     title_label_text: `$${hotel.getDailyRevenue(date).toFixed(2)} Revenue for ${date}`,
     series: [
       {
-        points: hotel.getRevenueDataForWeek(returnSevenDatesBefore(date))
+        points: dataPoints
       }
     ]
   })

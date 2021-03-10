@@ -6,9 +6,14 @@ body {
 body {
   display: flex;
   justify-content: space-around;
+  background-image: url('../images/background-image.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .column {
+  background: white;
+  opacity: 0.85;
   border: 2px solid black;
   width: 32%;
   overflow: scroll;

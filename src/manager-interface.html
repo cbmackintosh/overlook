@@ -16,7 +16,8 @@
       </div>
       <div class='daily-report'>
         <h2 class='daily-report-header'></h2>
-        <input class='report-date' type='date'>
+        <label for='report-date'>SELECT DATE FOR REVENUE/OCCUPANCY REPORT</label>
+        <input id='report-date' class='report-date' type='date'>
         <button class='refresh-report'>REFRESH</button>
         <div id='chartDiv-occupancy'></div>
         <div id='chartDiv-revenue'></div>
@@ -24,14 +25,15 @@
     </section>
     <section class='column middle-column'>
       <h2>GUEST SEARCH</h2>
-      <input class='guest-search-bar'>
-      <button class='search-guests-button'>SEARCH GUESTS</button>
+      <label for='guest-search-bar'>SEARCH GUESTS</label>
+      <input id='guest-search-bar' class='guest-search-bar'>
+      <button class='search-guests-button'>SEARCH</button>
       <div class='guest-search-result-section hidden'>
       </div>
       <div class='guest-information hidden'>
-        <h2 class='guest-name'></h2>
+        <h2 class='guest-name'>Guest Name</h2>
         <p class='guest-username'>username</p>
-        <h3 class='guest-total-expenditures'></h3>
+        <h3 class='guest-total-expenditures'>Guest Total Expenditures</h3>
         <button class='view-guest-future'>VIEW UPCOMING BOOKINGS</button>
         <button class='view-guest-history'>VIEW BOOKING HISTORY</button>
         <form class='booking-form-container'>
