@@ -20,7 +20,7 @@ const hotelData = {
     {id: 22222222222222223, userID: 2, date: '2020/03/12', roomNumber: 4, roomServiceCharges: []},
     {id: 33333333333333331, userID: 3, date: '2020/03/10', roomNumber: 3, roomServiceCharges: []},
     {id: 33333333333333332, userID: 3, date: '2020/03/11', roomNumber: 4, roomServiceCharges: []},
-    {id: 33333333333333333, userID: 3, date: '2020/03/12', roomNumber: 5, roomServiceCharges: []}
+    {id: 33333333333333333, userID: 3, date: '2020/03/12', roomNumber: 5}
   ]
 }
 
