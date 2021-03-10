@@ -1,4 +1,6 @@
 
+// ---- UNIVERSAL ------
+
 @import 'reusable-styles';
 
 * {
@@ -21,6 +23,8 @@ aside {
   width: 33%;
 }
 
+// ----- PROFILE BOX -------
+
 .profile-box {
   @include primary-card-color();
   @include flexbox(column, space-around, none);
@@ -39,6 +43,8 @@ aside {
   margin: 0;
 }
 
+// --------- BOOKING FORM ---------
+
 .booking-form-container {
   @include flexbox(column, space-around, none);
   @include primary-card-color();
@@ -46,6 +52,8 @@ aside {
   height: 50%;
   padding: 5%;
 }
+
+// ------ MAIN DISPLAY ----------
 
 main {
   @include primary-card-color();
@@ -94,6 +102,11 @@ main {
 
   .profile-box {
     height: 40%;
+  }
+
+  button {
+    width: 50%;
+    align-self: center;
   }
 
 }
