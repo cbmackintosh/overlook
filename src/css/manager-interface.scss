@@ -1,35 +1,102 @@
+// ----- UNIVERSAL ----
+
+@import 'reusable-styles';
+
+* {
+  @include master-font;
+}
+
 html,
 body {
   height: 100%;
 }
 
 body {
-  display: flex;
-  justify-content: space-around;
+  @include main-background;
+  @include flexbox(row, space-around, none);
 }
 
 .column {
-  border: 2px solid black;
-  width: 32%;
+  @include primary-card-color;
+  width: 30%;
   overflow: scroll;
+  padding: 1%;
+  height: 93%;
 }
 
-.guest-search-result,
-.guest-information,
-form {
+// ----- RIGHT COLUMN -----
+
+.greeting-box {
+  @include thin-black-border();
+  @include flexbox(column, center, center);
+  padding: 2%;
+}
+
+.manager-portal-header,
+.daily-report-header {
+  text-align: center;
+}
+
+// ------ MIDDLE COLUMN ------- 
+
+.guest-search-container {
+  @include flexbox(column, space-around, center);
+  height: 20%;
+  border-bottom: 1px solid black;
+}
+
+.guest-search-result {
   margin: 1%;
-  border: 1px solid black;
+  @include thin-black-border();
 }
-
-
 
 .guest-search-result:hover {
-  background-color: grey;
+  background-color: turquoise;
   cursor: pointer;
+}
+
+.guest-information {
+  height: 80%;
+}
+
+.guest-name {
+  margin-bottom: 0;
+}
+
+.guest-username,
+.guest-search-header {
+  margin: 0;
+}
+
+.guest-details-buttons {
+  @include flexbox(row, space-around, center);
+  height: 10%
+}
+
+.view-guest-future,
+.view-guest-history {
+  align-self: center;
+}
+
+.booking-form-container {
+  @include flexbox(column, space-around, none);
+  @include thin-black-border();
+  height: 50%;
+  padding: 1%;
 }
 
 .hidden {
   display: none;
+}
+
+// ---- RIGHT COLUMN -----
+
+.past-booking,
+.future-booking,
+.search-result {
+  @include thin-black-border();
+  margin: 2%;
+  padding: 2%;
 }
 
 @media screen and (max-width: 890px) {
@@ -37,10 +104,12 @@ form {
   body {
     flex-direction: column;
     height: fit-content;
+    background-attachment: fixed;
   }
 
   .column {
-    width: 100%;
+    width: 95%;
+    height: 30%;
   }
 
 }
