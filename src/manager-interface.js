@@ -244,6 +244,7 @@ function convertToTitleCase(string) {
 }
 
 async function refreshUserData() {
+  console.log('refresh')
   await loadManagerInterface()
 }
 
