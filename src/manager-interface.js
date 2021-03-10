@@ -103,8 +103,26 @@ const displayGuestDetails = (hotel, date) => {
   document.querySelector('.view-guest-future').addEventListener('click', function () {
     displayGuestUpcomingBookings(selectedGuest, date, hotel)
   })
+  document.querySelector('.view-guest-history').addEventListener('click', function() {
+    displayGuestBookingHistory(selectedGuest, date, hotel)
+  })
   document.querySelector('.room-search-submit').addEventListener('click', function() {
     document.getElementById('checkin-date').value ? searchVacancies(hotel, selectedGuest) : event.preventDefault();
+  })
+}
+
+const displayGuestBookingHistory = (guest, date, hotel) => {
+  document.querySelector('.right-column').innerHTML = ``;
+  guest.returnBookingsBefore(date)
+  .map(booking => {
+    document.querySelector('.right-column').innerHTML += `
+      <div class='past-booking'>
+        <h2>${booking.date}</h2>
+        <p>BOOKING #${booking.id}</p>
+        <h3>${convertToTitleCase(hotel.rooms.find(room => room.number === booking.room).roomType)} (ROOM #${hotel.rooms.find(room => room.number === booking.room).number})</h3>
+        <p>BILL TOTAL: $${hotel.rooms.find(room => room.number === booking.room).costPerNight + booking.roomServiceCharges.reduce((total, charge) => total += charge, 0)}</p>
+      </div>
+    `
   })
 }
 
